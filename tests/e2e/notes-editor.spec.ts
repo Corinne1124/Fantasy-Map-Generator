@@ -25,7 +25,10 @@ test.describe("Notes Editor", () => {
   test.beforeEach(async ({ page }) => {
     // a first visit raises the "generator was updated" window 6s in, which would stand in for any
     // alert the editor itself raises. Arriving as a returning visitor keeps the check below honest
-    await page.addInitScript(() => localStorage.setItem("version", "99.0.0"));
+    await page.addInitScript(() => {
+      localStorage.setItem("version", "99.0.0");
+      localStorage.setItem("fmg-locale", "en"); // these assertions read English dialog labels
+    });
     await page.goto("/?seed=test-notes&width=1280&height=720");
     await waitForMap(page);
   });

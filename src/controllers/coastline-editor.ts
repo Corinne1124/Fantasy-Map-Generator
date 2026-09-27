@@ -2,6 +2,7 @@ import { closeDialogs, destroyDialog } from "@/components/dialog/dialog-helpers"
 import { Controllers } from "@/controllers";
 import { Coastline, type CoastlineSettings, type FractalizedShape } from "@/generators/coastline-generator";
 import type { Feature } from "@/generators/features-generator";
+import { t } from "@/i18n";
 import { drawFeaturePath } from "@/renderers/draw-landmass";
 import type { Point } from "@/types/global";
 import { ensureEl, escapeHtml, findEl } from "@/utils";
@@ -676,8 +677,8 @@ function drawRoughnessGraph(canvas: HTMLCanvasElement, { profile, focus, vertice
 
   ctx.font = "bold 8px sans-serif";
   ctx.fillStyle = GREY_COLOR;
-  if (threshY > 12) ctx.fillText("ROUGH", 4, 10);
-  if (H - threshY > 10) ctx.fillText("CALM", 4, H - 3);
+  if (threshY > 12) ctx.fillText(t("ROUGH"), 4, 10);
+  if (H - threshY > 10) ctx.fillText(t("CALM"), 4, H - 3);
 
   if (!enabled) drawOffBadge(ctx, W);
 }
@@ -690,7 +691,7 @@ function drawOffBadge(ctx: CanvasRenderingContext2D, W: number): void {
   ctx.fillStyle = "rgba(0,0,0,0.55)";
   ctx.fillRect(W - 30, 4, 26, 13);
   ctx.fillStyle = "#fff";
-  ctx.fillText("OFF", W - 8, 6);
+  ctx.fillText(t("OFF"), W - 8, 6);
   ctx.textBaseline = "alphabetic";
   ctx.textAlign = "left";
 }

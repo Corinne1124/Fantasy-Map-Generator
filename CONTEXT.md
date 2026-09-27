@@ -17,6 +17,7 @@
 - `src/services/`: App-shell & platform lifecycle, unrelated to map state (e.g., PWA installation, auto-update).
 - `src/data/`: Static content / reference data (e.g., supporters list, heightmap templates).
 - `src/types/`: Shared TypeScript interfaces and domain models.
+- `src/i18n/`: Interface translations. English source strings are the dictionary keys; the runtime translates text as it reaches the DOM and never touches the map.
 - `src/utils/`: Generic helper functions.
 - `public/`: Static assets and NON-MIGRATED JS Code in `public/modules`. `public/libs/` holds vendored third-party scripts for legacy code only — new `src/` code imports deps from npm (no `src/libs/`).
 - `electron/`: Main process, preload script and self-update of the desktop app; the renderer is the same `src/` build, served from the `app://` scheme.

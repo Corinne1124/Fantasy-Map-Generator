@@ -84,7 +84,10 @@ async function survey(page: import("@playwright/test").Page, dialogId: string, c
 }
 
 test("every row lines up with its header, and no action cell is clipped", async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem("version", "99.0.0"));
+  await page.addInitScript(() => {
+    localStorage.setItem("version", "99.0.0");
+    localStorage.setItem("fmg-locale", "en"); // these assertions read English labels
+  });
   await page.goto("/?seed=table-actions&width=1400&height=800");
   await waitForMap(page);
 
@@ -116,7 +119,10 @@ test("every row lines up with its header, and no action cell is clipped", async 
 });
 
 test("each action sits in its own column", async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem("version", "99.0.0"));
+  await page.addInitScript(() => {
+    localStorage.setItem("version", "99.0.0");
+    localStorage.setItem("fmg-locale", "en"); // these assertions read English labels
+  });
   await page.goto("/?seed=table-actions&width=1400&height=800");
   await waitForMap(page);
 
@@ -142,7 +148,10 @@ const NOTE_TABLES: [dialogId: string, controller: string, noteType: string][] = 
 ];
 
 test("the note icon opens the Notes Editor on the row's entity", async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem("version", "99.0.0"));
+  await page.addInitScript(() => {
+    localStorage.setItem("version", "99.0.0");
+    localStorage.setItem("fmg-locale", "en"); // these assertions read English labels
+  });
   await page.goto("/?seed=table-actions&width=1400&height=800");
   await waitForMap(page);
 
@@ -211,6 +220,7 @@ test.describe("Goods display filter", () => {
     await page.addInitScript(() => {
       localStorage.setItem("version", "99.0.0");
       localStorage.setItem("fmg-locks", JSON.stringify({ points: 1 }));
+      localStorage.setItem("fmg-locale", "en"); // these assertions read English labels
     });
     await page.goto("/?seed=goods-filter&width=1600&height=1000");
     await waitForMap(page);

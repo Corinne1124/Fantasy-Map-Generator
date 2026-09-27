@@ -1,6 +1,7 @@
 // Layers tab: a projection of the Layers registry. Renders the layer buttons and wires them up.
 import type { LayerId } from "@/components/layers";
 import { Layers } from "@/components/layers";
+import { t } from "@/i18n";
 import { ViewportLayers } from "@/renderers/viewport/viewport-renderer";
 import { isCtrlClick } from "@/utils";
 import { ensureEl, findEl } from "@/utils/nodeUtils";
@@ -120,10 +121,14 @@ function render(): void {
       if (!button) return [];
 
       const item = document.createElement("li");
+      // the label marks its shortcut letter with <u>; Chinese has no such letter, so it is dropped
+      const label = button.label.replace(/<\/?u>/g, "");
+      const translated = t(label);
       item.dataset.layer = layer.id;
-      item.dataset.tip = `${button.label.replace(/<\/?u>/g, "")}: click to toggle, drag to raise or lower the layer. Ctrl + click to edit layer style`;
+      item.dataset.tip = `${translated}: click to toggle, drag to raise or lower the layer. Ctrl + click to edit layer style`;
       if (button.shortcut) item.dataset.shortcut = button.hint ?? button.shortcut.replace("Key", "");
-      item.innerHTML = button.label;
+      if (translated === label) item.innerHTML = button.label;
+      else item.textContent = translated;
       item.classList.toggle("buttonoff", !Layers.isOn(layer.id));
       item.classList.toggle("solid", layer.params.parent !== "viewbox"); // layers outside the viewbox cannot be reordered
       return [item];

@@ -3,6 +3,7 @@ import { waitForMap } from "./wait-for-map";
 
 test.describe("removing a river removes its label", () => {
   test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("fmg-locale", "en")); // the assertions read English labels
     await page.goto("/?seed=123456789&width=1280&height=720");
     await waitForMap(page);
 

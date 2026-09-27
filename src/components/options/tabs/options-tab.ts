@@ -20,6 +20,7 @@ import { precreatedHeightmaps } from "@/data/precreated-heightmaps";
 import { isAutoBurgLimit } from "@/generators/burgs-generator";
 import { CULTURE_SETS, Cultures } from "@/generators/cultures-generator";
 import { Emblems } from "@/generators/emblems-generator";
+import { getLocale } from "@/i18n";
 import { EmblemRenderer } from "@/renderers/emblems/renderer";
 import { toggleAssistant } from "@/services/assistant";
 import { copyMapURL } from "@/services/url-params";
@@ -195,6 +196,17 @@ const TEMPLATE = /* html */ `
     Map settings (apply to new maps):
   </p>
   <table>
+    <tr data-tip="Choose the interface language. The choice is stored in the browser">
+      <td></td>
+      <td>Language</td>
+      <td>
+        <select id="localeSelect" translate="no" onchange="window.I18n.setLocale(this.value)">
+          <option value="zh-CN">简体中文</option>
+          <option value="en">English</option>
+        </select>
+      </td>
+      <td></td>
+    </tr>
     <tr
       data-tip="Coordinate extent the next map is generated on. It is fixed for the life of that map and cannot be changed later - the Viewport size below is what you see it through. For full-globe maps use aspect ratio 2:1"
     >
@@ -643,6 +655,7 @@ const TEMPLATE = /* html */ `
 const pendingInputs = new WeakMap<HTMLElement, string>();
 
 ensureEl("optionsContent").innerHTML = TEMPLATE;
+ensureEl<HTMLSelectElement>("localeSelect").value = getLocale();
 addListeners();
 loadVoices();
 onPerformanceChange(() => syncOption("performancePreset")); // the preset follows the fields, wherever they change

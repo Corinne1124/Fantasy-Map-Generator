@@ -17,5 +17,9 @@ import "@/services";
 import "@/generators/styles-legacy";
 
 import { boot } from "@/components/lifecycle";
+import { initI18n } from "@/i18n";
 
-document.addEventListener("DOMContentLoaded", boot);
+document.addEventListener("DOMContentLoaded", () => {
+  initI18n();
+  boot();
+});

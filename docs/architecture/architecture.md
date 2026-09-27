@@ -326,6 +326,7 @@ app-shell lifecycle, static content, and shared helpers.
 | `src/components/`  | Application | application state and reusable UI                    |
 | `src/data/`        | —           | static content / reference data                      |
 | `src/services/`    | —           | app-shell & platform infra                           |
+| `src/i18n/`        | —           | interface translations and the runtime that applies them |
 | `src/utils/`       | —           | pure helpers: no ambient state, min 2 consumers      |
 | `src/types/`       | Shape       | shared TypeScript interfaces / domain models         |
 
@@ -372,6 +373,27 @@ its role. Heraldry is the current example:
 - `src/data/emblems/` — static heraldry catalogs
 - `src/generators/emblems-generator.ts` — emblem generation (registers `window.Emblems`)
 - `src/renderers/emblems/` — SVG drawing of emblems (registers `window.EmblemRenderer`)
+
+## Localization
+
+`src/i18n/` translates the interface at the moment text reaches the DOM. English stays the
+source language in the code: those strings double as the dictionary keys, so adding a
+language means adding a dictionary, not touching call sites.
+
+- `src/i18n/locales/zh-CN.ts` — the Simplified Chinese dictionary, keyed by the English source.
+- `src/i18n/index.ts` — the lookup (`t`), the attribute and text-node walk, and the
+  `MutationObserver` that follows content the app renders after boot.
+
+A key may embed `${...}` placeholders; those compile into patterns, so template-built
+labels such as `${name} is saved` translate without any call-site change. Text nodes keep
+the whitespace of the markup they came from, so lookups ignore surrounding whitespace.
+
+The **map is never translated** — its labels are world data. The observer watches only the
+non-SVG interface containers, which also keeps rendering off the translation path.
+
+`t()` is imported directly for the handful of places the DOM never sees, such as text drawn
+onto a canvas. The locale comes from `?lang=`, then `localStorage`, then defaults to Chinese;
+the Options tab switches it at runtime.
 
 ## Why no `core/`
 
